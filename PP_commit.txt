@@ -1,0 +1,3 @@
+[master 5242e14] Přidávám dokumentaci našeho projektu přes počítač pana Drhu
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 Projekt_AP1VS.docx

@@ -1,0 +1,3 @@
+[master 193cc29] Prva cast MorseCode bez Decryptu
+ 1 file changed, 66 insertions(+)
+ create mode 100644 MorseCode_1.py
