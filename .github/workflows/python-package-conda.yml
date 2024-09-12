@@ -1,0 +1,143 @@
+name: Python Package using Conda
+
+on: [push]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    - name: Install dependencies
+      run: |
+        conda env update --file environment.yml --name base
+    - name: Lint with flake8
+      run: |
+        conda install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        conda install pytest
+        pytest
+
+MORSE_CODE_DICT=    
+
+    {'A': '.-',
+    'B': '-...',
+    'C': '-.-.',
+    'D': '-..',
+    'E': '.',
+    'F': '..-.',
+    'G': '--.',
+    'H': '....',
+    'I': '..',
+    'J': '.---',
+    'K': '-.-',
+    'L': '.-..',
+    'M': '--',
+    'N': '-.',
+    'O': '---',
+    'P': '.--.',
+    'Q': '--.-',
+    'R': '.-.',
+    'S': '...',
+    'T': '-',
+    'U': '..-',
+    'V': '...-',
+    'W': '.--',
+    'X': '-..-',
+    'Y': '-.--',
+    'Z': '--..',
+    '1': '.----',
+    '2': '..---',
+    '3': '...--',
+    '4': '....-',
+    '5': '.....',
+    '6': '-....',
+    '7': '--...',
+    '8': '---..',
+    '9': '----.',
+    '0': '-----',
+    ', ': '--..--',
+    '.': '.-.-.-',
+    '?': '..--..',
+    '/': '-..-.',
+    '-': '-....-',
+    '(': '-.--.',
+    ')': '-.--.-',
+    }
+
+
+def encryption(message):
+    my_cipher = ''
+    for myletter in message:
+        if myletter != ' ':
+            my_cipher += MORSE_CODE_DICT[myletter] + ' '
+        else:
+            my_cipher += ' '
+        return my_cipher
+
+
+# This function is used to decrypt
+# Morse code to English
+
+def decryption(message):
+    message += ' '
+    decipher = ''
+    mycitext = ''
+    for myletter in message:
+
+      # checks for space
+
+        if myletter != ' ':
+            i = 0
+            mycitext += myletter
+        else:
+            i += 1
+            if i == 2:
+                decipher += ' '
+            else:
+                decipher += \
+                    list(MORSE_CODE_DICT.keys())[list(MORSE_CODE_DICT.values()).index(mycitext)]
+                mycitext = ''
+    return decipher
+
+
+def main():
+    my_message = 'PYTHON-PROGRAM'
+    output = encryption(my_message.upper())
+    print 
+    output
+    my_message = \
+        '.--. -.-- - .... --- -.  -....- .--. .-. --- --. .-. .- -- '
+    output = decryption(my_message)
+    print 
+    output
+
+
+# Executes the main function
+
+if __name__ == '__main__':
+    main()
+
+
+def testEncryption():
+    assert encryption('test') == '- . ... -'
+
+
+def testDecryption():
+    assert decryption('- . ... -') == 'TEST'
+
