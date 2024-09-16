@@ -1,0 +1,5 @@
+Toto je textovy soubor k projektu, pokud zadate nazev
+tohoto souboru do aplikace, vytvorene v Pythonu,
+tak se Vam vypise a provede operaci, ktera vypise cetnost znaku.
+
+Author: Nikolas REMES, Jakub HALASTA
